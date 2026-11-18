@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recordatorio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Cielo fijo: cambia de color al avanzar la carta -->
+  <div class="sky" aria-hidden="true">
+    <div class="stars" id="stars"></div>
+    <div class="sun"></div>
+    <div class="clouds" id="clouds"></div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+
+  <!-- Jinx y el avión cruzan por detrás de la carta, de ida y vuelta (solo gira el avión) -->
+  <div class="ferry" id="ferry" aria-hidden="true">
+    <div class="ferry-move">
+      <div class="ferry-bob">
+        <img class="plane" src="AvionPapel.svg" alt="">
+        <img class="jinx" src="jinx.svg" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- Portada: Jinx volando sobre el avión de papel -->
+  <header class="hero">
+    <h1 class="hero-title">Recordatorio</h1>
+
+    <div class="speed" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <div class="flight" role="img" aria-label="Jinx volando sobre un avión de papel">
+      <div class="glide">
+        <img class="plane" src="AvionPapel.svg" alt="">
+        <img class="jinx" src="jinx.svg" alt="">
+      </div>
+    </div>
+
+    <a class="scroll-hint" href="#parte-1">desliza<span>↓</span></a>
+  </header>
+
+  <!-- La carta, por partes -->
+  <main class="letter">
+    <article class="paper part" id="parte-1">
+      <div class="margin-line" aria-hidden="true"></div>
+      <p class="tag">parte 1</p>
+      <h2>Recordatorio</h2>
+      <p>Solo quiero recordarte que me importas y pienso en ti, de aquí una muestra de ello.</p>
+    </article>
+
+    <article class="paper part" id="parte-2">
+      <div class="margin-line" aria-hidden="true"></div>
+      <p class="tag">parte 2</p>
+      <h2>Lo que quiero que recuerdes</h2>
+      <p>Cuando el día se ponga pesado, acuérdate de que alguien cree en ti de verdad. Me importas muchísimo.</p>
+    </article>
+
+    <article class="paper part" id="parte-3">
+      <div class="margin-line" aria-hidden="true"></div>
+      <p class="tag">parte 3</p>
+      <h2>Haces más bonita mi vida</h2>
+      <p>Gracias por estar en mi vida, créeme que en serio la haces mucho mejor, eres maravillosa.</p>
+    </article>
+
+    <article class="paper part" id="parte-4">
+      <div class="margin-line" aria-hidden="true"></div>
+      <p class="tag">parte 4</p>
+      <h2>Te extraño</h2>
+      <p>Eres mi solecito que ilumina mi vida, espero podamos vernos pronto.</p>
+    </article>
+
+    <article class="paper part last" id="parte-5">
+      <div class="margin-line" aria-hidden="true"></div>
+      <p class="tag">parte 5</p>
+      <h2>Con cariño</h2>
+      <p>Siempre lo que hago y te dedico es para mostrarte cuánto te quiero, te hice para variar otra Jinx chiquita.</p>
+      <p class="sign">— I vehemently love you</p>
+    </article>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

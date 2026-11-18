@@ -1,0 +1,203 @@
+:root {
+  --sky-top: #4aa8f0;
+  --sky-bot: #d9f1ff;
+  --night: 0;          /* 0 = día, 1 = noche (lo mueve script.js) */
+  --paper: #fbf8f0;
+  --ink: #2a2f45;
+  --rule: #b9cde0;
+  --margin: #e39a9a;
+  --accent: #8c3b2a;
+  --lh: 2.2rem;
+  --m: 4.6rem;
+}
+
+* { box-sizing: border-box; }
+
+/* En pantallas grandes todo (texto y hojas, que usan rem) crece con el ancho */
+html { scroll-behavior: smooth; font-size: max(16px, 1.15vw); }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  font-size: 1.6rem;
+  line-height: var(--lh);
+  background: var(--sky-bot);
+}
+
+/* ---------- Cielo ---------- */
+.sky {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  background: linear-gradient(to bottom, var(--sky-top), var(--sky-bot));
+}
+.sun {
+  position: absolute; top: 9vh; right: 12vw;
+  width: clamp(70px, 9vw, 190px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle, #fffbe0 0 45%, #ffe27a 70%, rgba(255,226,122,0) 72%);
+  box-shadow: 0 0 80px 30px rgba(255, 236, 150, .55);
+  opacity: calc(1 - var(--night) * 1.4);
+  transform: translateY(calc(var(--night) * 40vh));
+}
+.stars { position: absolute; inset: 0; opacity: calc((var(--night) - .25) * 1.6); }
+.stars i {
+  position: absolute; border-radius: 50%;
+  background: #fff; animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle { 50% { opacity: .25; } }
+
+.clouds { position: absolute; inset: 0; }
+.cloud {
+  position: absolute; left: 0;
+  background: #fff; border-radius: 999px;
+  animation: drift linear infinite;
+  will-change: transform;
+}
+.cloud::before, .cloud::after {
+  content: ""; position: absolute; background: inherit; border-radius: 50%;
+}
+.cloud::before { width: 48%; height: 150%; left: 14%; bottom: 25%; }
+.cloud::after  { width: 36%; height: 120%; right: 14%; bottom: 20%; }
+.clouds { opacity: calc(.95 - var(--night) * .6); }
+@keyframes drift {
+  from { transform: translateX(110vw); }
+  to   { transform: translateX(-40vw); }
+}
+
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #fff; z-index: 20; box-shadow: 0 0 6px rgba(0,0,0,.25);
+}
+
+/* ---------- Portada ---------- */
+.hero {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: grid; place-items: center; overflow: hidden;
+}
+.hero-title {
+  position: absolute; top: 9vh; left: 0; right: 0; margin: 0;
+  text-align: center; font-weight: 600;
+  font-size: clamp(3rem, 9vw, 5.6rem); line-height: 1.1;
+  color: #000; text-shadow: 0 2px 14px rgba(255,255,255,.55);
+  animation: rise 1.6s ease both;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* avión + Jinx. Todo se dimensiona a partir de --w */
+.flight {
+  --w: min(82vw, 1150px, 86vh);
+  position: relative; width: var(--w); height: calc(var(--w) * .78);
+  margin-top: 6vh;
+  animation: float 5s ease-in-out infinite;
+}
+.glide { position: absolute; inset: 0; transform: rotate(-4deg); transform-origin: 60% 60%; animation: sway 7s ease-in-out infinite; }
+@keyframes float { 50% { transform: translateY(-18px); } }
+@keyframes sway  { 50% { transform: rotate(-1.5deg); } }
+
+.plane {
+  position: absolute; left: 0; bottom: 0; width: 100%; height: auto;
+  filter: drop-shadow(0 18px 18px rgba(30, 70, 130, .28));
+}
+.jinx {
+  position: absolute; width: 34%; height: auto;
+  left: 31%; bottom: 31%;
+  filter: drop-shadow(0 6px 6px rgba(20, 40, 90, .25));
+  animation: bounce 2.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes bounce { 50% { transform: translateY(-6px) rotate(1.2deg); } }
+
+/* líneas de velocidad */
+.speed { position: absolute; inset: 0; pointer-events: none; }
+.speed i {
+  position: absolute; left: 0; height: 3px; border-radius: 3px; background: rgba(255,255,255,.75);
+  animation: streak 1.4s linear infinite;
+}
+.speed i:nth-child(1) { top: 36%; width: 14vw; animation-delay: -.2s; }
+.speed i:nth-child(2) { top: 44%; width: 22vw; animation-delay: -.7s; animation-duration: 1.1s; }
+.speed i:nth-child(3) { top: 52%; width: 12vw; animation-delay: -1.1s; }
+.speed i:nth-child(4) { top: 60%; width: 26vw; animation-delay: -.4s; animation-duration: 1.7s; }
+.speed i:nth-child(5) { top: 68%; width: 16vw; animation-delay: -.9s; }
+.speed i:nth-child(6) { top: 76%; width: 20vw; animation-delay: -.5s; animation-duration: 1.2s; }
+@keyframes streak {
+  from { transform: translateX(105vw); opacity: 0; }
+  15%  { opacity: 1; }
+  to   { transform: translateX(-30vw); opacity: 0; }
+}
+
+.scroll-hint {
+  position: absolute; bottom: 4vh; left: 50%; transform: translateX(-50%);
+  color: #000; text-decoration: none; font-size: 1.6rem; text-align: center;
+  text-shadow: 0 2px 10px rgba(255,255,255,.55);
+}
+.scroll-hint span { display: block; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(8px); } }
+
+/* ---------- Jinx cruzando por detrás de la carta ---------- */
+.ferry {
+  --fw: clamp(170px, 26vw, 460px);
+  position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; overflow: hidden;
+  opacity: var(--ferry, 0);
+}
+.ferry-move {
+  position: absolute; top: 0; left: 0; width: var(--fw); height: calc(var(--fw) * .78);
+  will-change: transform; /* la ruta la mueve script.js */
+}
+.ferry-bob { position: absolute; inset: 0; animation: wave 2.6s ease-in-out infinite; }
+/* solo el avión gira (fuera de pantalla); Jinx no */
+.ferry .plane { transition: transform .8s ease-in-out; transform: perspective(900px) rotateY(var(--flip, 0deg)); transform-origin: 50% 50%; }
+/* ondulación (sube y baja) para que el camino se vea curvo */
+@keyframes wave {
+  0%, 100% { transform: translateY(calc(var(--amp, 4vh) * -1)) rotate(-5deg); }
+  50%      { transform: translateY(var(--amp, 4vh)) rotate(5deg); }
+}
+
+/* ---------- Carta por partes ---------- */
+.letter { position: relative; z-index: 1; padding: 2rem 1rem 8rem; }
+
+.paper {
+  position: relative;
+  max-width: 40rem; margin: 0 auto 4.5rem;
+  min-height: calc(var(--lh) * 9);
+  padding: calc(var(--lh) * 1) 2rem calc(var(--lh) * 1) var(--m);
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0, transparent calc(var(--lh) - 1px),
+    var(--rule) calc(var(--lh) - 1px), var(--rule) var(--lh));
+  background-position: 0 calc(var(--lh) * 1);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.18), 0 18px 40px rgba(20,40,90,.28);
+  opacity: 0; transform: translateY(40px) rotate(var(--tilt, 0deg));
+  transition: opacity 1s ease, transform 1s ease;
+}
+.paper.visible { opacity: 1; transform: rotate(var(--tilt, 0deg)); }
+.part:nth-child(odd)  { --tilt: -.6deg; }
+.part:nth-child(even) { --tilt: .5deg; }
+
+.margin-line {
+  position: absolute; top: 0; bottom: 0; left: calc(var(--m) - 1.4rem);
+  width: 2px; background: var(--margin); opacity: .8;
+}
+.tag { margin: 0; font-size: 1.15rem; color: #8a8fa6; letter-spacing: .06em; }
+.paper h2 {
+  margin: 0; font-weight: 600; font-size: 2.4rem; line-height: var(--lh);
+  color: var(--accent);
+}
+.paper p { margin: 0 0 var(--lh); }
+.paper p.tag { margin: 0; }
+.paper .sign { margin: 0; text-align: right; color: var(--accent); font-size: 1.8rem; }
+
+@media (max-width: 600px) {
+  :root { --m: 2.6rem; }
+  body { font-size: 1.35rem; }
+  .letter { padding: 1rem .6rem 5rem; }
+  .paper { padding-right: 1rem; margin-bottom: 7rem; } /* deja ver al avión entre hoja y hoja */
+  .paper h2 { font-size: 2rem; }
+  .flight { margin-top: 10vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .paper { opacity: 1; transform: none; }
+  .cloud { transform: translateX(var(--rx, 20vw)); }
+}
